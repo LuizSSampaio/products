@@ -16,23 +16,24 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
-    @PostMapping("/product")
+    @PostMapping
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto) {
         ProductModel productModel = new ProductModel();
         BeanUtils.copyProperties(productRecordDto, productModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(productRepository.save(productModel));
     }
 
-    @GetMapping("/product")
+    @GetMapping
     public ResponseEntity<List<ProductModel>> getAllProduct() {
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.findAll());
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getOneProduct(@PathVariable(value = "id") UUID id) {
         Optional<ProductModel> productModelOptional = productRepository.findById(id);
         if (productModelOptional.isEmpty()) {
@@ -41,7 +42,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productModelOptional.get());
     }
 
-    @PutMapping("/product/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> updateProduct(
             @PathVariable(value = "id") UUID id,
             @RequestBody @Valid ProductRecordDto productRecordDto
@@ -55,7 +56,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.save(productModel));
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable(value = "id") UUID id) {
         Optional<ProductModel> productModelOptional = productRepository.findById(id);
         if (productModelOptional.isEmpty()) {

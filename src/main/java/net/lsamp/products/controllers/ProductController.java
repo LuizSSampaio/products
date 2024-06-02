@@ -3,9 +3,7 @@ package net.lsamp.products.controllers;
 import jakarta.validation.Valid;
 import net.lsamp.products.dtos.ProductRecordDto;
 import net.lsamp.products.models.ProductModel;
-import net.lsamp.products.repositories.ProductRepository;
 import net.lsamp.products.services.ProductService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

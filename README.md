@@ -45,7 +45,7 @@ Running Tests
 #### Create product
 
 ```http
-  POST /api/products
+  POST /products
 ```
 
 | Parameter | Type     | Description                              |
@@ -57,13 +57,13 @@ Running Tests
 #### Get all products
 
 ```http
-  GET /api/products
+  GET /products
 ```
 
 #### Get one product
 
 ```http
-  GET /api/products/{id}
+  GET /products/{id}
 ```
 
 | Parameter | Type   | Description                           |
@@ -73,7 +73,7 @@ Running Tests
 #### Update product
 
 ```http
-  PUT /api/products/{id}
+  PUT /products/{id}
 ```
 
 | Parameter | Type     | Description                              |
@@ -86,7 +86,7 @@ Running Tests
 #### Delete product
 
 ```http
-  DELETE /api/products/{id}
+  DELETE /products/{id}
 ```
 
 | Parameter | Type   | Description                           |

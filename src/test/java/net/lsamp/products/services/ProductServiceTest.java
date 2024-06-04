@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -68,7 +68,6 @@ class ProductServiceTest {
         assertEquals(20, lastProduct.getStock());
     }
 
-    // TODO: Add get one fail test case
     @Test
     void getOneProduct() {
         UUID id = createProduct("getOne", BigDecimal.valueOf(35), 78).getId();
@@ -85,7 +84,11 @@ class ProductServiceTest {
         assertEquals(78, fetchedProduct.getStock());
     }
 
-    // TODO: Add update fail test case
+    @Test
+    void getOneProductNotFoundCase() {
+        assertThrows(ResponseStatusException.class, () -> productService.getOneProduct(UUID.randomUUID()));
+    }
+
     @Test
     void updateProduct() {
         UUID id = createProduct("update", BigDecimal.valueOf(41), 28).getId();
@@ -103,7 +106,15 @@ class ProductServiceTest {
         assertEquals(45, updatedProduct.getStock());
     }
 
-    // TODO: Add delete fail test case
+    @Test
+    void updateProductNotFoundCase() {
+        ProductRecordDto productRecordDto = new ProductRecordDto("updated", BigDecimal.valueOf(23), 45);
+
+        assertThrows(ResponseStatusException.class, () -> productService.updateProduct(
+                UUID.randomUUID(), productRecordDto
+        ));
+    }
+
     @Test
     void deleteProduct() {
         UUID id = createProduct("toBeDeleted", BigDecimal.valueOf(23), 80).getId();
@@ -112,7 +123,12 @@ class ProductServiceTest {
 
         assertEquals("Product deleted successfully", responseMessage);
 
-        // TODO: Check if the product was really deleted
+        assertThrows(ResponseStatusException.class, () -> productService.getOneProduct(id));
+    }
+
+    @Test
+    void deleteProductNotFoundCase() {
+        assertThrows(ResponseStatusException.class, () -> productService.deleteProduct(UUID.randomUUID()));
     }
 
     private ProductModel createProduct(String name, BigDecimal price, int stock) {
